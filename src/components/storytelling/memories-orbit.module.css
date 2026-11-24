@@ -1,0 +1,17 @@
+.gallery { min-width: 0; margin-top: clamp(1.5rem, 4svh, 2.5rem); isolation: isolate; }
+.stage { position: relative; display: flex; gap: 1.5rem; overflow-x: auto; padding: 1rem max(1rem, 12%); scroll-snap-type: x mandatory; overscroll-behavior-x: contain; scrollbar-width: none; }
+.stage:focus-visible { outline: 1px solid var(--color-text-muted); outline-offset: -3px; }
+.card { position: relative; flex: none; aspect-ratio: 2 / 3; height: min(55svh, 32rem, 114vw); max-width: 76vw; margin: 0; overflow: hidden; border: 1px solid var(--color-line-base); border-radius: .5rem; background: var(--color-bg-soft); box-shadow: 0 18px 38px #0005; scroll-snap-align: center; user-select: none; }
+.ticks { display: none; pointer-events: none; }
+.gallery[data-orbit-motion="active"] { flex: 1; width: var(--orbit-width); min-height: 0; align-self: center; }
+/* GSAP owns positions in orbit mode. Native snapping would follow the first
+   recycled photo and scroll this clipped viewport sideways mid-transition. */
+.gallery[data-orbit-motion="active"] .stage { display: block; width: 100%; height: 100%; padding: 0; overflow: hidden; scroll-snap-type: none; touch-action: pan-y; }
+.gallery[data-orbit-motion="active"] .ticks { display: block; position: absolute; inset: 0; width: 100%; height: 100%; stroke: #b8b1a0; stroke-width: .8; opacity: .56; }
+.gallery[data-orbit-motion="active"] .card { position: absolute; left: 50%; top: 0; height: var(--orbit-card-height); max-width: none; will-change: transform; }
+.status { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+/* Only GSAP's magnetic pull owns scrolling during this short interval. */
+:global(html:has([data-orbit-snapping])), :global(body:has([data-orbit-snapping])) { scroll-behavior: auto !important; }
+:global([data-memories-intro][data-orbit-standalone]) { position: relative; display: flex; flex-direction: column; width: var(--orbit-viewport-width); height: var(--orbit-viewport-height); margin-inline: calc((100% - var(--orbit-viewport-width)) / 2); padding: clamp(1.5rem, 6svh, 4rem) max(1.25rem, 6vw) 0; overflow: hidden; }
+:global([data-memories-intro][data-orbit-standalone]) > p { flex: none; }
+@media (prefers-reduced-motion: reduce) { .stage { scroll-behavior: auto; } }

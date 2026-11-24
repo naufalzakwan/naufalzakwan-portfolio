@@ -1,0 +1,4 @@
+.section { position: sticky; top: 0; z-index: 2; min-height: 100svh; background: #000; }
+/* Block width excludes the desktop scrollbar; 100vw background layers do not. */
+.musicBand { padding-top: var(--section-space); background: #000000; }
+.afterMusic { --color-bg: #000; display: flow-root; background: #000; }

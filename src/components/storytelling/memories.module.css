@@ -1,0 +1,40 @@
+.memories { min-width: 0; color: var(--color-text); }
+.intro { min-width: 0; padding-top: clamp(1.5rem, 4vw, 3rem); }
+.introduction { font-family: "Courier New", Courier, monospace; font-size: clamp(1rem, 1.35vw, 1.2rem); font-weight: 400; line-height: 1.8; color: #eae3d6; max-width: 100ch; margin-inline: auto; text-align: center; }
+.readingWord { display: inline-block; white-space: pre; }
+.readingCharacter { position: relative; display: inline-block; opacity: .94; }
+.readingCharacter:nth-child(5n) { opacity: .88; }
+.readingCharacter:nth-child(7n) { opacity: .97; }
+.readingCharacter[data-memory-untyped] { visibility: hidden; }
+.readingCharacter[data-memory-striking] { transform: translateY(calc(var(--memory-strike, 0) * .55px)); }
+.readingCharacter[data-memory-caret]::after { content: ""; position: absolute; top: .12em; bottom: .04em; right: -.08em; width: 1px; background: #cdb18c; visibility: visible; animation: memory-caret 1.4s ease-in-out infinite; }
+.readingCharacter[data-memory-caret="before"]::after { right: auto; left: 0; }
+@keyframes memory-caret { 0%, 100% { opacity: .25; } 50% { opacity: 1; } }
+@media (prefers-reduced-motion: reduce) {
+  .readingCharacter { opacity: 1; transform: none; }
+  .readingCharacter::after { display: none; }
+}
+.image { object-fit: cover; pointer-events: none; }
+.chapters { margin-top: clamp(2.5rem, 5vw, 5rem); }
+.chapterStage, .chapterStack { min-width: 0; }
+.chapterContent { display: grid; grid-template-columns: minmax(0, 1fr); align-items: center; gap: 1.5rem; padding-block: 1.5rem; }
+.chapter + .chapter { margin-top: 3rem; }
+.chapterFigure { display: flex; align-items: center; justify-content: center; min-width: 0; margin: 0; }
+.chapterFrame { position: relative; aspect-ratio: 2 / 3; width: min(100%, calc(var(--memory-photo-height, var(--memory-static-photo-height, min(48svh, 27rem))) * 2 / 3)); overflow: hidden; border-radius: .5rem; background: var(--color-bg-soft); }
+.chapterCopy { min-width: 0; max-width: 36rem; }
+.chapterCopy h4 { font-family: var(--font-space-grotesk), Arial, sans-serif; font-size: clamp(1.75rem, 3.4vw, 3.5rem); line-height: 1.08; font-weight: 500; letter-spacing: -.04em; }
+.description { color: var(--color-text-muted); font-size: clamp(.95rem, 1.25vw, 1.15rem); line-height: 1.85; margin-top: 1.5rem; }
+.chapters[data-motion="active"] .chapterStage { position: relative; display: grid; align-items: center; height: var(--memory-stage-height); }
+.chapters[data-motion="active"] .chapterStack { position: relative; width: 100%; height: var(--memory-content-height); overflow: hidden; isolation: isolate; }
+.chapters[data-motion="active"] .chapter { position: absolute; inset: 0; margin: 0; }
+.chapters[data-motion="active"] .chapterContent { height: 100%; padding-block: 0; background: var(--color-page-background); }
+.placeholder { position: absolute; inset: 0; display: flex; flex-direction: column; justify-content: center; align-items: center; gap: 1rem; color: var(--color-text-muted); background: linear-gradient(135deg, var(--color-surface-base), var(--color-bg-soft)); font-size: .7rem; }
+@media (min-width: 56rem) {
+  .chapterContent { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: clamp(2rem, 5vw, 5rem); }
+  .chapterFrame { --memory-static-photo-height: min(78svh, 46rem); }
+}
+@media (max-width: 30rem) {
+  .chapterCopy h4 { font-size: 1.8rem; }
+  .description { font-size: .9rem; line-height: 1.7; margin-top: 1rem; }
+  .chapter[data-memory-id="memory-02"] .description { font-size: .875rem; line-height: 1.55; }
+}

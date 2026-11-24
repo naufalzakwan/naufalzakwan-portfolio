@@ -1,0 +1,150 @@
+@import "tailwindcss";
+
+@theme inline {
+  --color-background: var(--color-page-background);
+  --color-background-soft: var(--color-bg-soft);
+  --color-surface: var(--color-surface-base);
+  --color-foreground: var(--color-text);
+  --color-muted: var(--color-text-muted);
+  --color-subtle: var(--color-text-subtle);
+  --color-line: var(--color-line-base);
+  --color-accent: var(--color-accent-base);
+  --color-accent-ink: var(--color-accent-ink-base);
+  --font-sans: var(--font-inter);
+  --font-display: var(--font-space-grotesk);
+  --breakpoint-sm: 40rem;
+  --breakpoint-md: 48rem;
+  --breakpoint-lg: 64rem;
+  --breakpoint-xl: 80rem;
+  --breakpoint-2xl: 90rem;
+}
+
+:root {
+  --color-page-background: #000000;
+  /* Preserve the original ink used by text, borders, shadows and masks. */
+  --color-bg: #101010;
+  --color-bg-soft: #000000;
+  --color-surface-base: #202020;
+  --color-text: #f2f0eb;
+  --color-text-muted: #a5a29c;
+  --color-text-subtle: #8d8a84;
+  --color-line-base: #343434;
+  --color-accent-base: #d2ae83;
+  --color-accent-ink-base: #21170f;
+  --container-max: 90rem;
+  --container-gutter: 1.25rem;
+  --section-space: clamp(5rem, 10vw, 11.25rem);
+  --hero-about-overlap: 28svh;
+  --space-2xs: 0.25rem;
+  --space-xs: 0.5rem;
+  --space-sm: 0.75rem;
+  --space-md: 1rem;
+  --space-lg: 1.5rem;
+  --space-xl: 2rem;
+  --space-2xl: 3rem;
+  --space-3xl: 4rem;
+  --radius-sm: 0.25rem;
+  --radius-md: 0.5rem;
+  --radius-lg: 0.75rem;
+  --divider-width: 1px;
+  --text-hero: clamp(4rem, 10vw, 9.5rem);
+  --text-section: clamp(2.5rem, 8vw, 6rem);
+  --text-project: clamp(2rem, 4vw, 4rem);
+  --text-lead: clamp(1.125rem, 1.5vw, 1.35rem);
+  --text-body: clamp(0.95rem, 1vw, 1.05rem);
+  --text-label: clamp(0.68rem, 0.75vw, 0.78rem);
+  --text-meta: clamp(0.75rem, 0.8vw, 0.85rem);
+}
+
+@media (min-width: 48rem) {
+  :root {
+    --container-gutter: 2rem;
+  }
+}
+
+@media (min-width: 64rem) {
+  :root {
+    --container-gutter: clamp(3.2rem, 6vw, 6.3rem);
+  }
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  min-width: 20rem;
+  background: var(--color-page-background);
+  color-scheme: dark;
+  scroll-behavior: smooth;
+  text-rendering: optimizeLegibility;
+}
+
+html.lenis,
+html.lenis body {
+  scroll-behavior: auto !important;
+}
+
+html,
+body {
+  margin: 0;
+  min-height: 100%;
+}
+
+body {
+  background: var(--color-page-background);
+  color: var(--color-text);
+  font-family: var(--font-inter), Arial, Helvetica, sans-serif;
+  font-size: var(--text-body);
+  line-height: 1.6;
+  overflow-wrap: break-word;
+}
+
+h1,
+h2,
+h3,
+p {
+  margin: 0;
+}
+
+h1,
+h2,
+h3 {
+  font-family: var(--font-space-grotesk), Arial, Helvetica, sans-serif;
+  text-wrap: balance;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button,
+a {
+  -webkit-tap-highlight-color: transparent;
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-accent-base);
+  outline-offset: 4px;
+}
+
+::selection {
+  background: var(--color-accent-base);
+  color: var(--color-accent-ink-base);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+  }
+}

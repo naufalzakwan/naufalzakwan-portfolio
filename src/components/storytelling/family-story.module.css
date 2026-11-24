@@ -1,0 +1,29 @@
+.root { margin-top: var(--section-space); margin-inline: 0; width: 100%; min-width: 0; background: #000000; caret-color: transparent; }
+.viewport, .track, .titleScene, .storyScene, .storyFrame { min-width: 0; }
+.titleScene { display: grid; place-items: center; min-height: 100svh; padding: clamp(var(--space-3xl), 10vw, 8rem) var(--container-gutter); text-align: center; background: #000000; }
+.heading { max-width: 18ch; margin: 0 auto; font-family: var(--font-space-grotesk), Arial, sans-serif; font-size: clamp(2.1rem, 6.5vw, 6rem); line-height: 1.04; font-weight: 700; letter-spacing: -0.045em; text-transform: uppercase; color: var(--color-text); }
+.storyScene { display: grid; align-items: center; min-height: 100svh; padding: var(--space-xl) var(--container-gutter) var(--space-3xl); background: #000000; }
+.storyFrame { display: grid; gap: var(--space-2xl); align-items: center; justify-items: center; max-width: 70rem; margin-inline: auto; }
+.visual { width: min(100%, 28rem); margin: 0; min-width: 0; }
+.photo { position: relative; width: 100%; aspect-ratio: var(--family-photo-ratio); background: var(--color-bg-soft); border: var(--divider-width) solid var(--color-line-base); border-radius: 32px; overflow: clip; }
+.placeholder { position: absolute; inset: 0; display: grid; place-items: center; }
+.plus { align-self: center; font-family: var(--font-space-grotesk), Arial, sans-serif; font-size: clamp(3rem, 6vw, 5rem); line-height: 1; color: var(--color-line-base); }
+.narrative { min-width: 0; width: 100%; max-width: 44ch; }
+.copy { color: var(--color-text); font-family: var(--font-space-grotesk), Arial, sans-serif; font-size: clamp(1.125rem, 1.5vw, 1.35rem); line-height: 1.65; letter-spacing: -0.015em; }
+.copy [data-family-word] { display: inline-block; }
+@media (min-width: 1024px) {
+  .storyFrame { width: 100%; grid-template-columns: minmax(0, 45fr) minmax(0, 40fr); column-gap: 10%; }
+}
+.heading { color: #FFFFFF; }
+/* Use the parent's usable width, excluding the native scrollbar. */
+.viewport[data-family-layout] { position: relative; width: 100%; height: 100vh; height: 100svh; overflow: hidden; background: #000000; }
+.viewport[data-family-layout] .track { display: flex; gap: 0; width: 200%; height: 100%; background: #000000; backface-visibility: hidden; will-change: transform; }
+.viewport[data-family-layout] .titleScene,
+.viewport[data-family-layout] .storyScene { flex: 0 0 50%; width: 50%; height: 100%; min-height: 0; padding: clamp(1.5rem, 3vw, 3rem) var(--container-gutter); }
+.viewport[data-family-layout] .titleScene,
+.viewport[data-family-layout] .storyScene { border: 0; backface-visibility: hidden; }
+/* Cover fractional-pixel joins without shifting the final content alignment. */
+.viewport[data-family-layout] .storyScene { margin-left: -1px; padding-left: calc(var(--container-gutter) + 1px); }
+@media (prefers-reduced-motion: reduce) {
+  .heading { color: #FFFFFF !important; filter: none !important; }
+}

@@ -1,0 +1,31 @@
+.stories { margin-top: var(--section-space); min-width: 0; }
+.chapter {
+  border-top: var(--divider-width) solid var(--color-line-base);
+  padding-top: clamp(2rem, 5vw, 5rem);
+  margin-top: clamp(4rem, 10vw, 9rem);
+  min-width: 0;
+}
+.chapter { display: grid; grid-template-columns: minmax(0, 1fr); gap: 2.5rem; }
+.copy, .figure { min-width: 0; }
+.heading {
+  font-family: var(--font-space-grotesk), Arial, sans-serif;
+  color: var(--color-text);
+  font-size: clamp(2rem, 4.8vw, 5rem);
+  font-weight: 500;
+  line-height: 1.02;
+  letter-spacing: -0.05em;
+  margin-top: 1.5rem;
+  max-width: 15ch;
+  overflow-wrap: break-word;
+}
+.paragraph { margin-top: 2rem; max-width: 48ch; color: var(--color-text-muted); font-size: var(--text-lead); line-height: 1.8; }
+.figure { margin: 0; }
+.frame { position: relative; width: 100%; border: var(--divider-width) solid var(--color-line-base); background: var(--color-bg-soft); }
+.placeholder { position: absolute; inset: 0; display: grid; place-items: center; }
+.placeholderMark { align-self: center; color: var(--color-line-base); font-family: var(--font-space-grotesk), Arial, sans-serif; font-size: clamp(2rem, 7vw, 6rem); line-height: 1; }
+@media (min-width: 48rem) {
+  .chapter { grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); align-items: center; gap: clamp(2rem, 5vw, 5rem); }
+  .reversed { grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); }
+  .reversed .copy { grid-column: 2; grid-row: 1; }
+  .reversed .figure { grid-column: 1; grid-row: 1; }
+}

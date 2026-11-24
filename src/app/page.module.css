@@ -1,0 +1,2 @@
+/* Shared sticky boundary; no overflow or transform on this ancestor. */
+.musicStack { position: relative; isolation: isolate; min-width: 0; }

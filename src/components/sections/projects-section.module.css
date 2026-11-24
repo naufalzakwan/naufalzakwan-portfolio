@@ -1,0 +1,63 @@
+.split { display: grid; gap: var(--space-xl); align-items: stretch; }
+.admin { position: relative; margin: 0; min-width: 0; container-type: inline-size; }
+.adminShowcase { display: grid; place-items: center; min-height: 0; padding-block: calc(100cqw * 906 / 1871 + var(--space-xs)); }
+.adminImages { position: relative; width: 100%; aspect-ratio: 1871 / 906; overflow: visible; isolation: isolate; }
+.adminImage { position: absolute; inset: 0; overflow: hidden; border: 1px solid var(--color-line-base); border-radius: var(--radius-lg); background: var(--color-page-background); }
+.adminScreenshot { object-fit: contain; }
+.adminPrimary { z-index: 2; padding: 0; color: inherit; font: inherit; cursor: pointer; }
+.adminPrimary:focus-visible { outline: 2px solid var(--color-accent-base); outline-offset: 4px; }
+.adminUpper, .adminLower {
+  z-index: 1; opacity: .82;
+  border-color: color-mix(in srgb, var(--color-text-subtle) 70%, var(--color-bg));
+  box-shadow: 0 3px 7px rgb(0 0 0 / .24);
+  transform: translateY(var(--rest-y)) scale(.96);
+  transition: opacity 750ms ease, transform 750ms cubic-bezier(.22, .68, 0, 1), border-color 750ms ease, box-shadow 750ms ease;
+}
+/* Dim only the screenshots: the frame and rounded corners must stay crisp. */
+.adminUpper .adminScreenshot, .adminLower .adminScreenshot {
+  filter: brightness(.5) saturate(.6) blur(.35px);
+  transition: filter 750ms cubic-bezier(.22, .68, 0, 1);
+}
+.adminUpper { --rest-y: -22%; --reveal-y: calc(-100% - var(--space-xs)); }
+.adminLower { --rest-y: 22%; --reveal-y: calc(100% + var(--space-xs)); }
+.admin[data-expanded="true"] :is(.adminUpper, .adminLower) {
+  opacity: 1; transform: translateY(var(--reveal-y)) scale(1);
+  border-color: var(--color-line-base);
+  box-shadow: 0 3px 7px rgb(0 0 0 / .18);
+}
+.admin[data-expanded="true"] :is(.adminUpper, .adminLower) .adminScreenshot {
+  filter: brightness(1) saturate(1) blur(0);
+}
+.content { min-width: 0; display: flex; flex-direction: column; }
+.title { font-size: clamp(2.5rem, 5vw, 5rem); font-weight: 600; letter-spacing: -.055em; line-height: 1; }
+.summary { margin-top: var(--space-lg); font-size: clamp(1.25rem, 2.15vw, 2rem); line-height: 1.35; letter-spacing: -.025em; }
+.description { margin-top: var(--space-md); color: var(--color-text-muted); font-size: var(--text-body); line-height: 1.7; max-width: 58ch; }
+@media (prefers-reduced-motion: reduce) {
+  .content [data-egggym-reveal] { color: var(--color-text) !important; filter: none !important; }
+  .content .description[data-egggym-reveal] { color: var(--color-text-muted) !important; }
+}
+.gallery { min-width: 0; margin-top: var(--space-xl); container-type: inline-size; }
+.rail { min-width: 0; overflow-x: auto; overflow-y: hidden; overscroll-behavior-x: contain; scrollbar-width: none; scroll-behavior: auto; }
+.rail::-webkit-scrollbar { display: none; }
+.track { display: flex; width: max-content; }
+.group { display: flex; flex: none; gap: 1rem; padding: 0 1rem 0 0; margin: 0; list-style: none; }
+.slide { flex: none; width: calc(100cqw - 2rem); min-width: 0; }
+.slideFigure { margin: 0; }
+.slideImage { position: relative; display: grid; place-items: center; aspect-ratio: 9 / 16; overflow: hidden; border: 1px solid var(--color-line-base); border-radius: var(--radius-md); background: var(--color-page-background); container-type: size; }
+.screenshotViewport { position: relative; max-width: 100%; max-height: 100%; overflow: hidden; }
+.screenshotCanvas { position: absolute; top: 0; height: 100%; }
+.screenshot { object-fit: contain; object-position: center; }
+.rail:focus-visible { outline: 2px solid var(--color-accent-base); outline-offset: 3px; }
+@media (min-width: 48rem) { .slide { width: calc((100cqw - 1rem) / 2); } }
+@media (min-width: 64rem) {
+  .split { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: clamp(1.5rem, 3vw, 3rem); }
+  /* Three equal, uncropped cards fit the existing right-column height. */
+  .adminShowcase { position: absolute; inset: 0; padding: 0; container-type: size; }
+  .adminImages { width: min(100%, calc((100cqh - 2 * var(--space-xs)) / 3 * 1871 / 906)); }
+  .slide { width: calc((100cqw - 2rem) / 3); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .clone { display: none; }
+  .slideImage, .adminUpper, .adminLower,
+  .adminUpper .adminScreenshot, .adminLower .adminScreenshot { transition: none; }
+}

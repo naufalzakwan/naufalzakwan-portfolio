@@ -1,0 +1,111 @@
+.section {
+  position: relative;
+  isolation: isolate;
+  display: grid;
+  place-items: center;
+  width: 100%;
+  min-height: clamp(34rem, 76svh, 54rem);
+  margin-top: clamp(4rem, 8vw, 8rem);
+  padding: clamp(5rem, 10vw, 9rem) clamp(1rem, 4vw, 4rem);
+  overflow: hidden;
+  background: var(--color-page-background);
+}
+
+.atmosphere {
+  position: absolute;
+  z-index: -1;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  opacity: .65;
+  mask-image: linear-gradient(transparent, #000 15%, #000 85%, transparent);
+}
+
+.rotor {
+  --orbit-size: max(100vw, 40rem);
+  position: absolute;
+  top: calc(50% - var(--orbit-size) / 2);
+  left: calc(50% - var(--orbit-size) / 2);
+  width: var(--orbit-size);
+  aspect-ratio: 1;
+  animation: warm-orbit 5.5s ease-in-out infinite alternate;
+  animation-play-state: var(--closing-play-state, running);
+  will-change: transform;
+}
+
+.glow {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    ellipse 60% 16% at center,
+    rgb(200 135 61 / 48%) 0%,
+    rgb(145 99 46 / 25%) 35%,
+    rgb(75 42 20 / 8%) 60%,
+    transparent 85%
+  );
+  filter: blur(24px);
+}
+
+.content {
+  width: 100%;
+  max-width: 62rem;
+  text-align: center;
+}
+
+.spark {
+  display: block;
+  margin-bottom: clamp(1.75rem, 3vw, 3rem);
+  color: #c8873d;
+  font-size: 1.5rem;
+  line-height: 1;
+}
+
+.message {
+  margin: 0;
+  color: #f3f1ed;
+  font-family: var(--font-space-grotesk), sans-serif;
+  font-size: clamp(1.5rem, 3.1vw, 3rem);
+  font-weight: 400;
+  line-height: 1.4;
+  letter-spacing: -.035em;
+  text-wrap: balance;
+}
+
+.linksArea {
+  min-height: 3rem;
+  margin-top: clamp(2rem, 4vw, 3.5rem);
+}
+
+.links {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: .75rem 2rem;
+}
+
+.link {
+  display: inline-flex;
+  min-height: 2.75rem;
+  max-width: 100%;
+  align-items: center;
+  gap: .65rem;
+  color: #efcb9e;
+  overflow-wrap: anywhere;
+  transition: color .2s ease;
+}
+
+.link:hover { color: #fff8eb; }
+.link svg { flex-shrink: 0; }
+
+@keyframes warm-orbit {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+@media (max-width: 39.999rem) {
+  .glow { filter: blur(18px); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .rotor { animation: none; will-change: auto; }
+}

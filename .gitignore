@@ -1,0 +1,43 @@
+# Dependencies and generated output
+node_modules/
+.next/
+out/
+build/
+coverage/
+*.tsbuildinfo
+next-env.d.ts
+
+# Environment and credentials (the example contains no secrets)
+.npmrc
+.env*
+!.env.example
+*.pem
+*.key
+*.p12
+*.pfx
+*.keystore
+credentials*.json
+service-account*.json
+
+# Provider/project links must be created independently
+.vercel/
+.aws/
+.codex/
+.agents/
+
+# Local tools, reports and temporary files
+backups/
+tmp/
+.cache/
+playwright-report/
+test-results/
+blob-report/
+docs/local-audit/
+docs/audits/
+*.log
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+
+# Keep README, credits, source documentation and screenshots publishable.

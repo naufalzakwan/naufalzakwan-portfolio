@@ -1,0 +1,16 @@
+.section { --origin-accent: #d9b482; margin-top: clamp(3rem, 8vw, 8rem); background: var(--color-page-background); color: var(--color-text); }
+.stage { position: relative; isolation: isolate; width: 100%; height: 100svh; min-height: 36rem; overflow: hidden; background: var(--color-page-background); }
+.canvas { position: absolute; inset: 0; width: 100%; height: 100%; opacity: 0; pointer-events: none; }
+.staticMap { position: absolute; width: 60%; height: 78%; left: 50%; top: 50%; transform: translate(-50%, -50%); object-fit: contain; }
+.stage[data-origin-ready="true"] .canvas { opacity: 1; }
+.stage[data-origin-ready="true"] .staticMap { visibility: hidden; }
+.marker { position: absolute; z-index: 3; left: var(--origin-marker-x, 50%); top: var(--origin-marker-y, 50%); width: 0; height: 0; opacity: var(--origin-marker-opacity, 0); pointer-events: none; }
+.markerDot { position: absolute; width: 36px; height: 36px; border: 1px solid var(--origin-accent); border-radius: 50%; transform: translate(-50%, -50%); }
+.markerDot::after { content: ""; position: absolute; width: 7px; height: 7px; left: 50%; top: 50%; transform: translate(-50%, -50%); border-radius: 50%; background: var(--origin-accent); }
+.markerLabel { display: flex; flex-direction: column; gap: .15rem; position: absolute; left: 30px; top: 0; transform: translateY(-50%); width: max-content; padding: .6rem .8rem; background: color-mix(in srgb, var(--color-page-background) 90%, transparent); }
+.markerLabel strong { font-family: var(--font-space-grotesk), Arial, sans-serif; font-size: clamp(1.25rem, 2vw, 1.6rem); line-height: 1.2; font-weight: 500; letter-spacing: -.04em; }
+@media (max-width: 899px) {
+  .staticMap { width: 100%; height: 52%; }
+  .markerLabel { left: 0; top: 29px; transform: translateX(-50%); text-align: center; }
+}
+@media (max-height: 599px) { .stage { height: 100svh; min-height: 0; } }

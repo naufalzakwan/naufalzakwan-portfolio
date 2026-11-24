@@ -1,0 +1,198 @@
+.hero {
+  --hero-cyan: #4ed3ee;
+  --hero-underlap: var(--hero-about-overlap);
+  --hero-cream: #f5e4bc;
+  --hero-peach: #ffbb80;
+  --hero-coral: #fb7679;
+  --hero-name-gradient: linear-gradient(100deg, #FFF8EB 0%, #F8E4C5 25%, #EFCB9E 50%, #DEA65E 75%, #C8873D 100%);
+  background: var(--color-page-background);
+  color: var(--color-text);
+  scroll-margin-top: 4.5rem;
+  padding-bottom: var(--hero-about-overlap);
+  position: relative;
+  z-index: 0;
+}
+
+.hero[data-hero-intro="running"] { overflow-x: clip; overflow-y: visible; }
+
+.stage {
+  position: relative;
+  isolation: isolate;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100vh;
+  height: 100svh;
+}
+
+.photoFade {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  overflow: hidden;
+  pointer-events: none;
+  /* Fade only the photo; keep the aperture anchored while parallax runs inside.
+     Artwork stays visible near the bottom, reaching transparency at the edge. */
+  --photo-fade: linear-gradient(to bottom,
+    #000 0%, #000 60%,
+    rgb(0 0 0 / 98%) 70%,
+    rgb(0 0 0 / 85%) 80%,
+    rgb(0 0 0 / 55%) 90%,
+    rgb(0 0 0 / 24%) 95%,
+    rgb(0 0 0 / 7%) 98%,
+    transparent 100%);
+  -webkit-mask-image: var(--photo-fade);
+  mask-image: var(--photo-fade);
+}
+.portrait {
+  position: absolute;
+  inset: 0 0 calc(-1 * var(--hero-underlap));
+  z-index: -1;
+  overflow: hidden;
+  /* The shared GSAP timeline moves this layer independently of the text.
+     Its original image box and crop stay unchanged. */
+}
+.portrait::after {
+  content: "";
+  position: absolute;
+  inset: 0 0 var(--hero-underlap);
+  pointer-events: none;
+  background: linear-gradient(110deg, color-mix(in srgb, var(--hero-cyan) 7%, transparent), transparent 55%);
+}
+/* Preserve the original viewport-sized image box/crop. The continuation fills
+   the extra layout area shared by Hero and About. */
+.imageLayer { position: absolute; inset: 0 0 var(--hero-underlap); }
+.image { object-fit: cover; object-position: right 20%; }
+.portraitUnderlap { position: absolute; inset: auto 0 0; height: var(--hero-underlap); pointer-events: none; }
+.continuationImage { object-fit: cover; object-position: right bottom; }
+
+.masthead {
+  /* Scroll transforms stay on this parent, separate from title entrance. */
+  display: grid;
+  grid-template-columns: max-content minmax(0, 1fr);
+  position: relative;
+  min-width: 0;
+  max-width: none;
+  padding-top: calc(5rem + env(safe-area-inset-top, 0px));
+  padding-inline: clamp(1.25rem, 3.5vw, 4.5rem);
+}
+
+.headline {
+  display: grid;
+  grid-column: 1 / -1;
+  grid-template-columns: subgrid;
+  margin: 0;
+  font-family: var(--font-hero-display), var(--font-space-grotesk), sans-serif;
+  font-size: clamp(3rem, 12.5vw, 6rem);
+  font-weight: 400;
+  line-height: 1.02;
+  letter-spacing: -0.015em;
+  text-transform: uppercase;
+}
+
+.nameLine { display: block; position: relative; width: max-content; max-width: 100%; }
+.nameLine:first-child { grid-column: 1 / -1; }
+.nameLine:last-child { grid-column: 1; }
+.ink, .mist { display: block; color: var(--color-text); }
+.mist { display: none; }
+
+/* Each line has its own gradient. The mask blends the soft upper edge into
+   the sharp main ink without a horizontal boundary or full-heading filter. */
+@supports ((background-clip: text) or (-webkit-background-clip: text)) {
+  .ink, .mist {
+    background-image: var(--hero-name-gradient);
+    background-clip: text;
+    -webkit-background-clip: text;
+    color: transparent;
+  }
+}
+@supports ((mask-image: linear-gradient(black, transparent)) or (-webkit-mask-image: linear-gradient(black, transparent))) {
+  .ink {
+    -webkit-mask-image: linear-gradient(to bottom, transparent, rgb(0 0 0 / 40%) 14%, black 36%);
+    mask-image: linear-gradient(to bottom, transparent, rgb(0 0 0 / 40%) 14%, black 36%);
+  }
+  .mist {
+    display: block;
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    filter: blur(0.022em);
+    -webkit-mask-image: linear-gradient(to bottom, black 0%, black 12%, transparent 43%);
+    mask-image: linear-gradient(to bottom, black 0%, black 12%, transparent 43%);
+  }
+}
+
+/* The same intrinsic grid track holds ZAKWAN and its labels. Subgrid lets the
+   actual word define that track, without JS measurements or a viewport width. */
+.nameLine:last-child .ink {
+  -webkit-mask-image: none;
+  mask-image: none;
+  filter: none;
+  text-shadow: none;
+}
+
+.labels {
+  grid-column: 1;
+  min-width: 0;
+  contain: inline-size;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-top: var(--space-xl);
+  padding-block: 0.875rem;
+  font-size: var(--text-label);
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  text-shadow: 0 1px 4px var(--color-bg);
+}
+
+.lower { position: relative; min-width: 0; max-width: none; display: flex; justify-content: flex-start; padding-block: 1.5rem; padding-inline: clamp(1.25rem, 3.5vw, 4.5rem); }
+.year {
+  display: grid;
+  font-family: var(--font-space-grotesk), Arial, Helvetica, sans-serif;
+  font-size: clamp(2.75rem, 10vw, 6rem);
+  font-weight: 600;
+  line-height: 0.85;
+  letter-spacing: -0.07em;
+  gap: 0.2em;
+  padding-bottom: 0.4rem;
+  text-shadow: 0 2px 12px color-mix(in srgb, var(--color-bg) 55%, transparent);
+}
+
+@media (max-width: 39.999rem) {
+  .portrait { top: clamp(17rem, 34svh, 21rem); }
+}
+@media (min-width: 40rem) {
+  .headline { font-size: clamp(5rem, 11vw, 11rem); }
+  .labels { flex-direction: row; flex-wrap: wrap; justify-content: space-between; gap: 1rem; }
+}
+@media (min-width: 40rem) and (max-width: 63.999rem) {
+  .portrait { top: clamp(18rem, 31svh, 23rem); }
+}
+@media (min-width: 64rem) {
+  .masthead { padding-top: max(1.5rem, 3svh); }
+  .headline { font-size: clamp(5rem, min(11vw, 22svh), 16rem); }
+  .labels {
+    margin-top: clamp(1.5rem, 6svh, 3.5rem);
+    padding-block: 0.5rem;
+  }
+  .labels > :nth-child(2) { text-align: center; }
+  .labels > :last-child { text-align: right; }
+  .year { font-size: clamp(5rem, min(12vw, 18svh), 12rem); padding-bottom: 0.25em; }
+}
+@media (min-width: 64rem) and (max-height: 48rem) {
+  .year { font-size: clamp(5rem, min(12vw, 15svh), 12rem); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .imageLayer, .labels { transform: none !important; }
+}
+
+@media (max-width: 63.999rem) and (max-height: 31rem) {
+  .portrait { top: 0; }
+  .masthead { padding-top: calc(4.5rem + env(safe-area-inset-top, 0px)); }
+  .headline { font-size: clamp(2.25rem, min(10vw, 16svh), 6rem); }
+  .labels { flex-direction: row; flex-wrap: wrap; margin-top: 1rem; gap: .5rem 1rem; padding-block: .5rem; }
+  .lower { padding-block: .5rem; }
+  .year { font-size: clamp(2rem, 10svh, 3rem); }
+}

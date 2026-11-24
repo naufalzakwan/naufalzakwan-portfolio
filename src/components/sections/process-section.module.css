@@ -1,0 +1,16 @@
+.section { position: relative; background: #000; scroll-margin-top: 4.5rem; }
+.stage { position: relative; display: grid; place-items: center; min-height: 100svh; overflow: hidden; isolation: isolate; background: #000; }
+.statement { position: relative; display: grid; place-items: center; min-height: 100svh; padding: 3rem var(--container-gutter); background: #d2ae83; scroll-margin-top: 4.5rem; }
+.note { position: absolute; height: clamp(16rem, 42svh, 25rem); width: min(60vw, 17rem); object-fit: contain; pointer-events: none; transform-origin: center; }
+.bridge { position: absolute; inset: 0; z-index: 1; background: #d2ae83; opacity: 0; pointer-events: none; }
+.copy { position: relative; z-index: 1; width: 100%; max-width: 66rem; text-align: center; }
+.headline { margin: 0; color: #000; font-family: var(--font-space-grotesk), Arial, sans-serif; font-size: clamp(1.75rem, 5vw, 5rem); font-weight: 700; line-height: .98; letter-spacing: -.055em; text-transform: uppercase; text-wrap: balance; }
+.headline span { display: inline-block; white-space: pre; }
+.emphasis { color: inherit; }
+.scene { position: relative; min-width: 0; }
+.scene[data-music-scene-active] { position: sticky; top: 0; z-index: 1; }
+.runway { height: 0; pointer-events: none; transition-property: none; }
+.scene[data-music-scene-active] .statement { position: absolute; inset: 0; z-index: 2; }
+@media (prefers-reduced-motion: reduce) {
+  .scene, .scene * { transition-property: none; }
+}

@@ -1,0 +1,43 @@
+.marquee {
+  min-width: 0;
+  overflow: hidden;
+  overflow: clip;
+  background: var(--color-page-background);
+  color: var(--color-text);
+  padding-block: clamp(1rem, 2vw, 2rem);
+  font-family: var(--font-marquee-display), var(--font-space-grotesk), sans-serif;
+  font-size: clamp(5.1rem, 14.45vw, 18.7rem);
+  font-weight: 400;
+  line-height: 1.08;
+  letter-spacing: -0.025em;
+}
+
+.track {
+  display: flex;
+  width: max-content;
+  will-change: transform;
+  animation: works-drift 40s linear infinite;
+}
+
+/* Each half includes its trailing gap. -50% is exactly one measured-by-layout
+   group, so its identical successor occupies the same pixels at every seam. */
+.group {
+  display: flex;
+  flex: 0 0 auto;
+  gap: 0.35em;
+  padding-inline-end: 0.35em;
+}
+
+.group > span { flex: 0 0 auto; white-space: nowrap; }
+
+@keyframes works-drift {
+  from { transform: translate3d(0, 0, 0); }
+  to { transform: translate3d(-50%, 0, 0); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .marquee { font-size: clamp(2.3375rem, 8.5vw, 7.65rem); }
+  .track { width: 100%; animation: none; transform: none; will-change: auto; }
+  .group { width: 100%; justify-content: center; padding: 0; }
+  .group + .group, .group > span + span { display: none; }
+}

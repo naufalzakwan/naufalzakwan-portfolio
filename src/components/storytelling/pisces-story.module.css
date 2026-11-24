@@ -1,0 +1,72 @@
+.root { position: relative; margin-top: clamp(4rem, 10vw, 9rem); border-top: 1px solid transparent; background: var(--color-page-background); }
+.stage { position: relative; display: grid; gap: 2rem; align-items: center; padding-block: clamp(2rem, 5vw, 5rem); }
+.rolling, .stack { display: none; }
+.chart { position: relative; width: min(100%, 34rem); margin: 0; justify-self: center; grid-row: 2; }
+.svg { display: block; width: 100%; height: auto; overflow: visible; }
+.foundation { stroke: var(--color-text-muted); stroke-width: 1.1; }
+.wheel { stroke: var(--color-line-base); stroke-width: 1; }
+.tick { opacity: .7; }
+.glyphs { fill: var(--color-text-muted); font-family: "Segoe UI Symbol", sans-serif; font-size: 25px; }
+.piscesGlyph { fill: var(--color-accent-base); }
+.constellation { stroke: var(--color-accent-base); stroke-width: 1.25; stroke-linecap: round; }
+.constellation path { filter: drop-shadow(0 0 2px color-mix(in srgb, var(--color-accent-base) 15%, transparent)); }
+.constellation circle { fill: var(--color-text); stroke: none; }
+.constellation .knot { fill: var(--color-accent-base); }
+.diagramMark { fill: var(--color-accent-base); }
+.innerGlyph { font: 45px "Segoe UI Symbol", sans-serif; }
+.diagramName { font: 500 13px var(--font-space-grotesk), sans-serif; letter-spacing: 5px; }
+.copy { min-width: 0; grid-row: 1; }
+.heading { font-size: clamp(2.2rem, 4.3vw, 4.4rem); font-weight: 500; line-height: 1.02; letter-spacing: -.05em; }
+.heading > span { display: block; }
+.signMask { overflow: hidden; margin-top: .5rem; }
+.sign { display: block; color: var(--color-accent-base); font-family: var(--font-space-grotesk), sans-serif; font-size: clamp(3.1rem, 7vw, 6rem); font-weight: 600; line-height: 1.04; letter-spacing: -.05em; text-transform: uppercase; }
+.paragraphs { display: grid; gap: .75rem; margin-top: 1rem; color: var(--color-text-muted); font-size: clamp(.86rem, 1.1vw, 1.05rem); line-height: 1.65; }
+.root[data-pisces-motion="active"] .stage { display: block; height: var(--pisces-height); padding: 0; overflow: hidden; isolation: isolate; }
+.root[data-pisces-motion="active"] .rolling { position: absolute; inset: 0; display: grid; place-items: center; perspective: 1000px; }
+.rolling p { width: 100%; max-width: 70rem; margin-inline: auto; text-align: center; font-family: var(--font-space-grotesk), sans-serif; font-size: clamp(2rem, 6vw, 6.25rem); line-height: 1.08; letter-spacing: -.045em; font-weight: 500; text-wrap: balance; }
+.openingRow { display: block; }
+.openingScene { position: absolute; inset: 0; display: grid; place-items: center; }
+.rolling :global(.pisces-char) { backface-visibility: hidden; }
+.root[data-pisces-motion="active"] .stack { position: absolute; display: block; left: 50%; top: 50%; width: clamp(14rem, 28vw, 21rem); height: min(65%, 26rem); transform: translate(-50%, -50%); perspective: 900px; }
+.card { position: absolute; inset: 0; display: flex; align-items: center; flex-direction: column; justify-content: center; gap: 1rem; border: 1px solid var(--zodiac-card-accent, var(--color-line-base)); border-radius: 1rem; background: var(--color-bg-soft); box-shadow: 0 14px 30px rgb(0 0 0 / .18); padding: 1.25rem; }
+.card[data-sign="Aries"] { --zodiac-card-accent: #E58A83; }
+.card[data-sign="Taurus"] { --zodiac-card-accent: #A3BC98; }
+.card[data-sign="Gemini"] { --zodiac-card-accent: #E8C979; }
+.card[data-sign="Cancer"] { --zodiac-card-accent: #A5BBCB; }
+.card[data-sign="Leo"] { --zodiac-card-accent: #E5B66F; }
+.card[data-sign="Virgo"] { --zodiac-card-accent: #B1B888; }
+.card[data-sign="Libra"] { --zodiac-card-accent: #D7A6B5; }
+.card[data-sign="Scorpio"] { --zodiac-card-accent: #C77C88; }
+.card[data-sign="Sagittarius"] { --zodiac-card-accent: #B5A1DB; }
+.card[data-sign="Capricorn"] { --zodiac-card-accent: #94A9BA; }
+.card[data-sign="Aquarius"] { --zodiac-card-accent: #88C9CF; }
+.card :is(.cardSymbol, .cardName) { color: var(--zodiac-card-accent, var(--color-text)); }
+.cardSymbol { font-family: "Segoe UI Symbol", sans-serif; font-size: clamp(5rem, 9vw, 8rem); line-height: 1; }
+.cardName { font-family: var(--font-space-grotesk), sans-serif; font-size: clamp(1.5rem, 2.5vw, 2.25rem); letter-spacing: -.04em; text-transform: uppercase; }
+.card[data-sign="Pisces"] { border-color: var(--color-accent-base); }
+.card[data-sign="Pisces"] :is(.cardSymbol, .cardName) { color: var(--color-accent-base); }
+.root[data-pisces-motion="active"] .chart { position: absolute; left: 50%; top: 50%; width: var(--pisces-diagram-size); }
+.root[data-pisces-motion="active"] .copy { position: absolute; left: 1rem; width: calc(100% - 2rem); }
+@media (min-width: 56rem) {
+  .stage { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 3rem; }
+  .copy { grid-column: 1; }
+  .chart { grid-column: 2; grid-row: 1; }
+  .root[data-pisces-motion="active"] .copy { left: 0; width: 47%; }
+}
+@media (max-width: 55.999rem) {
+  .heading { font-size: 2.2rem; }
+  .sign { font-size: 3.1rem; }
+  .paragraphs { gap: .5rem; margin-top: .75rem; font-size: .86rem; line-height: 1.5; }
+}
+/* Short screens read vertically instead of compressing copy into a shared pin. */
+.root[data-pisces-fallback] { overflow-x: clip; }
+.root[data-pisces-fallback] .stage { display: flex; flex-direction: column; align-items: stretch; }
+.root[data-pisces-fallback] .rolling { display: block; order: 1; }
+.root[data-pisces-fallback] .openingScene { position: relative; min-height: 75svh; padding-block: 2rem; }
+.root[data-pisces-fallback] .rolling p { font-size: clamp(1.5rem, 6vw, 4rem); }
+.root[data-pisces-fallback] .stack { position: relative; display: block; order: 2; width: min(70vw, 52svh, 21rem); aspect-ratio: .8; margin: 2rem auto; }
+.root[data-pisces-fallback] .stage > :global(.pin-spacer) { order: 2; }
+.root[data-pisces-fallback] .cardName { font-size: clamp(1rem, 3.5vw, 1.5rem); }
+.root[data-pisces-fallback] .card { padding: 1rem; }
+.root[data-pisces-fallback] .copy { order: 3; }
+.root[data-pisces-fallback] .chart { order: 4; align-self: center; }

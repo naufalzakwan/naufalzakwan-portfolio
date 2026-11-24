@@ -1,0 +1,91 @@
+/* Continue the music story with a smaller gap after the banner viewport. */
+.archive { margin-top: calc(var(--section-space) * .5); min-width: 0; }
+.header { display: grid; gap: var(--space-xl); align-items: center; margin-bottom: var(--space-md); }
+.heading { font-family: var(--font-space-grotesk), Arial, sans-serif; font-size: clamp(2.3rem, 7.2vw, 7rem); line-height: .94; font-weight: 700; letter-spacing: -.055em; text-transform: uppercase; max-width: 13ch; margin: 0; }
+.dot { color: var(--color-accent-base); }
+.description { font-family: var(--font-space-grotesk), Arial, sans-serif; font-size: clamp(1.125rem, 1.8vw, 1.8rem); line-height: 1.4; max-width: 34ch; color: var(--color-text-muted); }
+.shell {
+  --disc-scale: clamp(.6px, .075vw, 1px);
+  min-width: 0;
+  width: var(--gallery-width, calc(100vw - 2rem));
+  margin-inline: calc((100% - var(--gallery-width, calc(100vw - 2rem))) / 2);
+  /* Keep the largest CD inside the gallery on short, wide viewports too. */
+  height: max(clamp(28rem, 78svh, 48rem), calc(540 * var(--disc-scale) + 4rem));
+}
+.rail { height: 100%; min-width: 0; overflow-x: auto; overflow-y: hidden; overscroll-behavior-x: contain; scrollbar-width: none; }
+.rail::-webkit-scrollbar { display: none; }
+.rail:focus-visible { outline: 2px solid #d9b482; outline-offset: -4px; }
+.shell[data-cd-motion="active"] { max-height: calc(100svh - 64px); }
+.shell[data-cd-motion="active"] .rail { overflow: hidden; touch-action: pan-y; }
+.shell[data-cd-motion="active"] .track { position: relative; display: block; width: 100%; padding: 0; }
+.shell[data-cd-motion="active"] .item { position: absolute; top: 0; left: 0; margin: 0; will-change: transform; }
+.track {
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  width: max-content;
+  min-width: 100%;
+  height: 100%;
+  padding: clamp(4rem, 10svh, 7rem) clamp(1rem, 2vw, 2rem) 2rem;
+  margin: 0;
+  list-style: none;
+}
+.item {
+  flex: none;
+  width: calc(var(--disc-diameter) * var(--disc-scale));
+  margin-inline-start: clamp(-3rem, -3vw, -1rem);
+  transform: translateY(calc(-1 * var(--disc-rise) * var(--disc-scale)));
+  filter: drop-shadow(0 12px 12px #0008);
+}
+.item:first-child { margin-inline-start: 0; }
+.figure { margin: 0; }
+.disc {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  overflow: hidden;
+  transform: rotate(var(--disc-tilt));
+  /* The centre is genuinely transparent, not a painted dark circle. */
+  mask-image: radial-gradient(circle closest-side, transparent 0 12%, #000 12.6%);
+  background: var(--disc-ink);
+  box-shadow: inset 0 0 0 2px #ded8ccab, inset 0 0 0 5px #0008;
+}
+.artwork { position: absolute; inset: 0; border-radius: inherit; }
+.artwork[data-pattern="orbit"] { background: radial-gradient(ellipse at 72% 28%, var(--disc-paper) 0, var(--disc-glow) 23%, transparent 57%), conic-gradient(from 35deg at 30% 65%, var(--disc-ink), var(--disc-glow), var(--disc-ink) 70%); }
+.artwork[data-pattern="fold"] { background: conic-gradient(from 220deg at 23% 70%, var(--disc-ink), var(--disc-glow) 12%, var(--disc-paper) 25%, var(--disc-glow) 42%, var(--disc-ink) 63%, var(--disc-paper) 78%, var(--disc-ink)); }
+.artwork[data-pattern="halo"] { background: radial-gradient(circle at 48% 40%, var(--disc-ink) 0 23%, var(--disc-glow) 24%, var(--disc-paper) 27%, var(--disc-glow) 31%, var(--disc-ink) 55%, var(--disc-glow) 88%); }
+.artwork[data-pattern="ripple"] { background: repeating-radial-gradient(ellipse at 18% 80%, transparent 0 9%, color-mix(in srgb, var(--disc-paper) 45%, transparent) 10% 11%, transparent 12% 19%), linear-gradient(135deg, var(--disc-ink), var(--disc-glow) 55%, var(--disc-paper)); }
+.disc::before, .disc::after { content: ""; position: absolute; inset: 0; border-radius: inherit; pointer-events: none; }
+.disc::before {
+  z-index: 1;
+  /* Printed artwork stays visible beneath reflections and fine circular grooves.
+     This layer shares the disc transform, including its existing rotation. */
+  background:
+    conic-gradient(from -38deg, transparent 0 15%, rgb(255 255 255 / .06) 18%, rgb(255 255 255 / .24) 20%, transparent 25% 47%, rgb(0 0 0 / .1) 51%, rgb(237 205 155 / .14) 54%, transparent 60% 76%, rgb(219 239 255 / .18) 81%, transparent 87%),
+    radial-gradient(circle closest-side, transparent 25%, rgb(255 255 255 / .05) 48%, transparent 72%, rgb(255 255 255 / .1) 97%, transparent 100%),
+    repeating-radial-gradient(circle closest-side, transparent 0 3px, rgb(255 255 255 / .07) 3px 3.5px, rgb(0 0 0 / .04) 3.5px 4px);
+  box-shadow: inset 0 0 0 1.5px #eee5d7aa, inset 0 0 0 4px #29231c66;
+}
+[data-cd-item="disc-02"] .disc::before,
+[data-cd-item="disc-03"] .disc::before,
+[data-cd-item="disc-04"] .disc::before,
+[data-cd-item="disc-05"] .disc::before,
+[data-cd-item="disc-06"] .disc::before {
+  background: repeating-radial-gradient(circle closest-side, transparent 0 3px, rgb(255 255 255 / .07) 3px 3.5px, rgb(0 0 0 / .04) 3.5px 4px);
+}
+.disc::after {
+  z-index: 3;
+  background: radial-gradient(circle closest-side, transparent 0 12%, #e2ded4 12.8%, #373735 14.2%, #b6b4ac 15.4% 19.5%, #74736e 20%, #d9d7cd 21%, #42433e 22%, #ddd8c24d 23%, transparent 25%);
+}
+@media (min-width: 768px) { .header { grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr); gap: var(--space-2xl); } }
+/* On wide screens the discs can use the empty space beside the text above.
+   Their safe top inset keeps the artwork below the description. */
+@media (min-width: 1024px) and (min-height: 600px) and (prefers-reduced-motion: no-preference) {
+  .shell { margin-top: calc(-1 * clamp(2rem, 8svh, 5rem)); }
+}
+@media (max-width: 767px) {
+  .shell { --disc-scale: clamp(.45px, .15vw, .65px); height: clamp(23rem, 64svh, 34rem); }
+  .track { padding-top: 3rem; padding-bottom: 1.5rem; }
+  .item { margin-inline-start: -1.25rem; }
+}

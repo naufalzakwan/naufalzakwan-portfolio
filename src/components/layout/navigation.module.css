@@ -1,0 +1,195 @@
+.header {
+  position: fixed;
+  inset: 0 0 auto;
+  z-index: 50;
+  color: var(--color-text);
+  background: transparent;
+  pointer-events: none;
+}
+
+/* Only the button can intercept clicks; no full-width background or glass. */
+.header .identity,
+.header .menuButton {
+  text-shadow: 0 1px 4px var(--color-bg);
+}
+
+.header .menuButton {
+  margin-left: auto;
+  background: transparent;
+}
+
+.menuVisibility {
+  margin-left: auto;
+  pointer-events: auto;
+  opacity: 1;
+  transform: translateY(0);
+  visibility: visible;
+  transition: opacity .35s ease, transform .35s ease, visibility 0s;
+}
+.menuVisibility[data-menu-visible="false"] {
+  pointer-events: none;
+  opacity: 0;
+  transform: translateY(-10px);
+  visibility: hidden;
+  transition: opacity .35s ease, transform .35s ease, visibility 0s .35s;
+}
+@media (prefers-reduced-motion: reduce) {
+  .menuVisibility, .menuVisibility[data-menu-visible="false"] { transition: none; }
+}
+
+.bar {
+  max-width: none;
+  padding-inline: clamp(1.25rem, 3.5vw, 4.5rem);
+  display: flex;
+  min-height: 4.5rem;
+  padding-top: env(safe-area-inset-top, 0px);
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.identity {
+  display: inline-flex;
+  align-items: center;
+  min-height: 2.75rem;
+  font-family: var(--font-space-grotesk), Arial, Helvetica, sans-serif;
+  font-size: 0.875rem;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  text-transform: uppercase;
+}
+
+.identityDot { margin-left: 0.25rem; color: var(--color-accent-base); }
+
+.menuButton {
+  display: inline-flex;
+  min-width: 5.5rem;
+  min-height: 2.75rem;
+  padding: 0.5rem 1rem;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--color-line-base);
+  border-radius: var(--radius-sm);
+  background: var(--color-bg-soft);
+  color: var(--color-text);
+  font-family: var(--font-inter), Arial, Helvetica, sans-serif;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: color 150ms, border-color 150ms;
+}
+
+.menuButton:hover, .menuButton:focus-visible {
+  color: var(--color-accent-base);
+  border-color: var(--color-accent-base);
+}
+
+.panel {
+  position: fixed;
+  inset: 0;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  max-width: none;
+  height: 100%;
+  height: 100dvh;
+  max-height: none;
+  border: 0;
+  background: var(--color-page-background);
+  color: var(--color-text);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  scrollbar-gutter: stable;
+}
+
+/* The dialog itself supplies the animated dark background. */
+.panel::backdrop { background: transparent; }
+.panel[open] { display: grid; grid-template-rows: auto minmax(0, 1fr); }
+
+.panelTop {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  background: var(--color-page-background);
+  border-bottom: 1px solid var(--color-line-base);
+}
+
+.panelContent {
+  min-height: 0;
+  display: grid;
+  place-items: center;
+  padding-top: clamp(0.5rem, 2dvh, 1.5rem);
+  padding-bottom: max(clamp(0.5rem, 2dvh, 1.5rem), env(safe-area-inset-bottom, 0px));
+}
+
+.panelContent nav { width: 100%; min-width: 0; }
+.list {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: clamp(0.125rem, 0.4dvh, 0.5rem);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.link {
+  display: block;
+  padding-block: clamp(0.125rem, 0.45dvh, 0.35rem);
+  color: var(--color-text-muted);
+  font-family: var(--font-space-grotesk), Arial, Helvetica, sans-serif;
+  /* Eleven links fit below the unchanged header, including short
+     landscape viewports. Width bounds keep the longest label on one line. */
+  font-size: clamp(0.75rem, min(7vw, 5dvh), 4rem);
+  line-height: 1.05;
+  font-weight: 600;
+  letter-spacing: -0.05em;
+  text-transform: uppercase;
+  text-align: center;
+  white-space: nowrap;
+  overflow-wrap: normal;
+  transition: color 150ms;
+}
+
+.link[aria-current="location"] { color: var(--color-accent-base); }
+
+/* Hover and keyboard focus each isolate one highlighted item. */
+.list:has(.link:hover) .link,
+.list:has(.link:focus-visible) .link { color: var(--color-text-muted); }
+.list:has(.link:hover) .link:hover { color: var(--color-accent-base); }
+.list:has(.link:focus-visible) .link:hover { color: var(--color-text-muted); }
+.list:has(.link:focus-visible) .link:focus-visible { color: var(--color-accent-base); }
+.link:focus-visible { outline-offset: -2px; }
+
+.fallback {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 1.5rem;
+  padding: 6rem var(--container-gutter) 1.5rem;
+  background: var(--color-page-background);
+}
+.fallback a { display: inline-flex; align-items: center; min-height: 2.75rem; }
+
+@media (min-width: 48rem) {
+  .panelContent nav { max-width: 60rem; margin-inline: auto; }
+}
+
+@media (pointer: coarse) {
+  /* Let short touch screens scroll the dialog instead of shrinking hit areas. */
+  .panelContent { align-items: start; }
+  .link { display: flex; align-items: center; justify-content: center; min-height: 44px; min-width: 44px; }
+}
+
+@media (max-height: 28rem) {
+  .list { gap: 0.3dvh; }
+  .link {
+    font-size: clamp(0.65rem, min(7vw, 4.8dvh), 4rem);
+    padding-block: 0.1dvh;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .header, .menuButton, .link { transition: none; }
+}
